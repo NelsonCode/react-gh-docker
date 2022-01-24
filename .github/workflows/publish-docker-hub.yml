@@ -7,7 +7,7 @@ on:
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_IMAGE_NAME: docker-app
+  DOCKER_IMAGE_NAME: react-app
 
 jobs:
   test:
@@ -33,7 +33,7 @@ jobs:
       - name: Set image id from the last build
         id: vars
         run: echo "::set-output name=image_id::$(docker images | grep ${{ env.DOCKER_USER }}\/${{ env.DOCKER_IMAGE_NAME }} | head -n1 | awk '{print $3}')"
-
+      
       - name: Retag image LATEST with image id from the last build
         run: docker tag ${{ steps.vars.outputs.image_id }} ${{ env.DOCKER_USER }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
